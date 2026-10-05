@@ -6,15 +6,11 @@
 <title>LIVING MEMORIAL — Est. 24 Dec 1965 · The Peace Years</title>
 <meta name="description" content="A living memorial, built by the man himself. Sixty years old. Peace and quiet every day. Assholes and manipulators can get fucked.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕯️</text></svg>">
-<!-- Apply saved theme before first paint (no flash) -->
 <script>try{var _t=localStorage.getItem('lm-theme');if(_t)document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════════════════════════
-   THEME TOKENS — the 6 dark-warm palettes live here.
-   ════════════════════════════════════════════════════════════ */
 :root, html[data-theme="ember"]{
   --bg-hero:#14110b; --bg-deep:#0f0c08; --bg-card:#1e1810;
   --s1:#221a10; --s2:#261d11; --s3:#1f180d; --s4:#2a2113;
@@ -107,7 +103,6 @@ h1,h2,h3,h4{font-family:"Fraunces",serif;font-weight:900;line-height:1.12;paddin
 }
 #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:210}
 
-/* ---------- header ---------- */
 header.site{
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;gap:1rem;
@@ -125,17 +120,30 @@ header.site.scrolled{
 .brand .flame-dot{width:9px;height:14px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
   background:radial-gradient(circle at 50% 70%,#fff3cf,#f0b445 55%,#c96a1e 90%);
   animation:flick 1.6s ease-in-out infinite alternate;box-shadow:0 0 10px 2px rgba(240,180,70,.5)}
-header nav{display:flex;gap:clamp(.7rem,1.8vw,1.6rem);overflow-x:auto;scrollbar-width:none}
-header nav::-webkit-scrollbar{display:none}
-header nav a{
-  font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
-  text-decoration:none;color:var(--tx);opacity:.55;white-space:nowrap;padding:.3rem 0;position:relative;
-  transition:opacity .25s ease;
+
+/* dropdown nav */
+.nav-trigger{
+  background:none;border:1px solid var(--gold);color:var(--gold);width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;
+  transition:background .3s ease,color .3s ease;position:relative;
 }
-header nav a:hover,header nav a:focus-visible{opacity:1}
-header nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .3s var(--ease-out)}
-header nav a.active{opacity:1;color:var(--gold)}
-header nav a.active::after{width:100%}
+.nav-trigger:hover,.nav-trigger:focus-visible{background:var(--gold);color:var(--bg-hero)}
+.nav-trigger svg{width:20px;height:20px;fill:currentColor}
+.nav-dropdown{
+  position:absolute;top:calc(100% + 10px);right:0;background:var(--bg-card);
+  border:1px solid var(--brass);box-shadow:0 20px 50px rgba(0,0,0,.5);
+  padding:1rem;min-width:220px;opacity:0;pointer-events:none;
+  transform:translateY(-10px);transition:opacity .3s ease,transform .3s ease;
+}
+.nav-dropdown.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+.nav-dropdown a{
+  display:block;padding:.75rem 1rem;font-family:"IBM Plex Mono",monospace;font-size:.7rem;
+  letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--tx-dim);
+  border-left:2px solid transparent;transition:all .25s ease;
+}
+.nav-dropdown a:hover,.nav-dropdown a:focus-visible{color:var(--gold);border-left-color:var(--gold);background:rgba(217,164,65,.08)}
+.nav-dropdown a.active{color:var(--gold);border-left-color:var(--gold);background:rgba(217,164,65,.08)}
+
 .head-right{display:flex;align-items:center;gap:1rem}
 .est{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.18em;color:var(--gold);white-space:nowrap}
 .theme-btn{
@@ -149,7 +157,6 @@ header nav a.active::after{width:100%}
 .skip{position:absolute;left:-999px;top:0;background:var(--gold);color:var(--bg-hero);padding:.6rem 1rem;z-index:400;font-family:"IBM Plex Mono",monospace}
 .skip:focus{left:0}
 
-/* ---------- theme modal ---------- */
 .theme-modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:1.2rem}
 .theme-modal[hidden]{display:none}
 .theme-backdrop{position:absolute;inset:0;background:rgba(5,4,2,.78)}
@@ -178,7 +185,6 @@ header nav a.active::after{width:100%}
 .theme-modal-panel .tm-close{margin-top:1.5rem;text-align:center}
 .tm-esc{font-family:"IBM Plex Mono",monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tx-dim);margin-top:.9rem}
 
-/* ---------- reveals ---------- */
 .js .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out);transition-delay:var(--d,0s)}
 .js .reveal.in{opacity:1;transform:none}
 .js .lm{display:block;overflow:hidden}
@@ -204,7 +210,6 @@ header nav a.active::after{width:100%}
   100%{opacity:1;transform:rotate(var(--sr,-4deg)) scale(1)}
 }
 
-/* ════════════ I. THE MEMORIAL ════════════ */
 #memorial{
   min-height:100vh;position:relative;padding:clamp(7rem,14vh,9.5rem) 0 0;
   background:radial-gradient(1200px 500px at 85% -10%, rgba(217,164,65,.07), transparent 60%),var(--bg-hero);
@@ -287,7 +292,6 @@ header nav a.active::after{width:100%}
 .ribbon span{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.82rem;letter-spacing:.28em;text-transform:uppercase;white-space:nowrap;padding-right:2.5rem}
 @keyframes slide{to{transform:translateX(-50%)}}
 
-/* ════════════ II. ABOUT ════════════ */
 #man{background:var(--s1);color:var(--tx);padding:clamp(4.5rem,9vw,7.5rem) 0}
 #man .kicker{color:var(--blood-hot)}
 .man-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2.5rem,6vw,5.5rem);align-items:start}
@@ -323,7 +327,6 @@ header nav a.active::after{width:100%}
 .stat .num{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(2rem,3.6vw,2.9rem);color:var(--tx);line-height:1.15}
 .stat .lbl{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-dim);margin-top:.55rem;display:block}
 
-/* ════════════ III. THE ROAD HERE ════════════ */
 #road{background:var(--s2);color:var(--tx);padding:clamp(4.5rem,9vw,7.5rem) 0}
 #road .kicker{color:var(--blood-hot)}
 #road h2{font-size:clamp(2.2rem,4.6vw,3.6rem);max-width:20ch;margin-bottom:1.6rem}
@@ -390,7 +393,6 @@ header nav a.active::after{width:100%}
 .tm-verdict{margin-top:2rem;font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--tx-dim);display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
 .tm-verdict b{color:var(--blood-hot);font-weight:600}
 
-/* ════════════ IV. THE LEDGER ════════════ */
 #ledger{background:var(--s3);color:var(--tx);padding:clamp(4.5rem,9vw,7.5rem) 0}
 #ledger .kicker{color:var(--gold-deep)}
 #ledger h2{font-size:clamp(2.2rem,4.6vw,3.6rem);max-width:22ch;margin-bottom:1.2rem}
@@ -421,7 +423,6 @@ header nav a.active::after{width:100%}
 .ledger-col.hate li:hover span.txt::after{width:104%}
 .ledger-note{margin-top:2.2rem;font-style:italic;color:var(--tx-dim);text-align:center}
 
-/* ════════════ V. THE CHAOS YEARS ════════════ */
 #chaos{background:var(--bg-deep);color:var(--tx);padding:clamp(4.5rem,9vw,7.5rem) 0;position:relative}
 #chaos::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 400px at 10% 0%,rgba(194,58,36,.08),transparent 60%);pointer-events:none}
 #chaos .kicker{color:var(--blood-hot)}
@@ -470,7 +471,34 @@ header nav a.active::after{width:100%}
 .js .obit.in{opacity:1;transform:rotate(var(--r));transition:opacity .8s var(--ease-out) var(--d,0s),transform .8s var(--ease-out) var(--d,0s)}
 .js .obit.in:hover{transform:rotate(0deg) translateY(-6px)}
 
-/* ════════════ VI. THE PEACE ════════════ */
+/* Katamatite Years - full width personal record */
+.katamatite{
+  margin-top:clamp(2.5rem,5vw,4rem);padding:clamp(2rem,4vw,3rem);
+  background:var(--bg-card);border:1px solid var(--line);
+  box-shadow:0 26px 60px rgba(0,0,0,.5);position:relative;
+}
+.katamatite::before{
+  content:"PERSONAL RECORD · FAMILY FILE";position:absolute;top:-13px;left:28px;
+  font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.26em;
+  background:var(--blood);color:var(--card);padding:.5em 1em;transform:rotate(-1.5deg);
+}
+.katamatite h3{font-size:clamp(1.8rem,3.5vw,2.4rem);margin-bottom:1.4rem}
+.katamatite .kt-dates{
+  font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem;display:block;
+}
+.katamatite p{color:var(--tx-dim);margin-bottom:1.2rem;max-width:62ch}
+.katamatite p b{color:var(--tx);font-weight:600}
+.katamatite .kt-note{
+  font-style:italic;color:var(--tx-dim);border-left:3px solid var(--gold-deep);
+  padding-left:1rem;margin-top:1.6rem;
+}
+.katamatite .kt-more{
+  margin-top:1.6rem;padding-top:1rem;border-top:1px dashed var(--line);
+  font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--tx-dim);
+}
+
 #peace{background:var(--s4);color:var(--tx);padding:clamp(4.5rem,9vw,7.5rem) 0 clamp(4rem,8vw,6.5rem)}
 #peace .kicker{color:var(--gold)}
 .peace-hero{overflow:hidden;border:1px solid var(--line);margin-bottom:clamp(2.5rem,5vw,4rem);box-shadow:0 26px 60px rgba(0,0,0,.4)}
@@ -510,7 +538,6 @@ header nav a.active::after{width:100%}
 .bday-card p b{color:var(--tx)}
 .bday-card .bday-sig{font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-deep);margin-top:1.4rem;display:block}
 
-/* ════════════ VII. DEDICATION ════════════ */
 #dedication{background:var(--bg-hero);color:var(--tx);padding:clamp(5rem,10vw,8rem) 0 clamp(2.5rem,5vw,3.5rem);text-align:center;position:relative;overflow:hidden}
 #dedication::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 380px at 50% 0%,rgba(217,164,65,.08),transparent 65%);pointer-events:none}
 .ded-kicker{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--tx-dim);margin-bottom:2.6rem}
@@ -537,7 +564,6 @@ footer.site nav{display:flex;gap:1.4rem;flex-wrap:wrap}
 footer.site nav a{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tx-dim);text-decoration:none;transition:color .25s}
 footer.site nav a:hover{color:var(--gold)}
 .f-candles{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.16em;color:var(--gold)}
-/* ---------- footer social icons ---------- */
 .social-row{
   flex:1 1 100%;display:flex;justify-content:center;align-items:center;gap:1rem;
   border-top:1px solid var(--line);margin-top:.6rem;padding-top:1.5rem;flex-wrap:wrap;
@@ -570,29 +596,21 @@ footer.site nav a:hover{color:var(--gold)}
 <div class="grain" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════
-     HOW TO ADD YOUR OWN PHOTOS
-     Search this file for:  REPLACE THIS PHOTO
-     Each one marks a placeholder image (picsum.photos). Swap the src
-     for your own file, e.g.  src="photos/me-at-60.jpg"
-     Keep your photo near the suggested size so the layout holds.
-
-     HOW TO ADD YOUR SOCIAL LINKS
-     Search this file for:  REPLACE THESE LINKS
-     ══════════════════════════════════════════════════════════════════ -->
-
 <header class="site" id="siteHeader">
   <a class="brand" href="#memorial"><span class="flame-dot" aria-hidden="true"></span>LIVING&nbsp;MEMORIAL</a>
-  <nav aria-label="Sections">
-    <a href="#memorial">The Memorial</a>
-    <a href="#man">The Man</a>
-    <a href="#road">The Road</a>
-    <a href="#ledger">Likes &amp; Loathings</a>
-    <a href="#chaos">The Chaos Years</a>
-    <a href="#peace">The Peace</a>
-    <a href="#dedication">Dedication</a>
-  </nav>
   <div class="head-right">
+    <button class="nav-trigger" id="navTrigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navDropdown" title="Navigate sections" aria-label="Navigate sections">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+    </button>
+    <div class="nav-dropdown" id="navDropdown" role="menu">
+      <a href="#memorial" role="menuitem">The Memorial</a>
+      <a href="#man" role="menuitem">The Man</a>
+      <a href="#road" role="menuitem">The Road</a>
+      <a href="#ledger" role="menuitem">Likes &amp; Loathings</a>
+      <a href="#chaos" role="menuitem">The Chaos Years</a>
+      <a href="#peace" role="menuitem">The Peace</a>
+      <a href="#dedication" role="menuitem">Dedication</a>
+    </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-haspopup="dialog" aria-controls="themeModal" title="Choose a colour theme" aria-label="Choose a colour theme">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
         <path d="M12 3a9 9 0 1 0 0 18c1.6 0 2.1-1.1 1.5-2.2-.6-1.2.1-2.3 1.5-2.3H17a4.5 4.5 0 0 0 4.5-4.5C21.5 7 17.5 3 12 3Z"/>
@@ -606,7 +624,6 @@ footer.site nav a:hover{color:var(--gold)}
 </header>
 
 <main>
-<!-- ════════════ I. THE MEMORIAL ════════════ -->
 <section id="memorial" aria-label="The memorial">
   <div class="wrap">
     <p class="dedication-line reveal">A MONUMENT BUILT BY THE SURVIVOR · <b>WHILE STILL BREATHING</b> · REDEDICATED DAILY</p>
@@ -637,7 +654,6 @@ footer.site nav a:hover{color:var(--gold)}
       <div class="portrait-col reveal" style="--d:.2s">
         <figure class="frame">
           <div class="kenburns">
-            <!-- REPLACE THIS PHOTO: main hero portrait — suggested size 840 × 1040 (portrait) -->
             <img src="https://picsum.photos/seed/the-man-at-sixty-portrait/840/1040" width="840" height="1040" alt="Current portrait of the man — sixty years old, calm expression, standing in his own space.">
           </div>
           <figcaption>CURRENT PHOTOGRAPH — THE CALM FACE IS REAL</figcaption>
@@ -657,20 +673,17 @@ footer.site nav a:hover{color:var(--gold)}
   </div>
 </div>
 
-<!-- ════════════ II. ABOUT ════════════ -->
 <section id="man" aria-label="About the man">
   <div class="wrap">
     <div class="man-grid">
       <div class="man-photo reveal">
         <figure class="frame">
           <div class="kenburns">
-            <!-- REPLACE THIS PHOTO: the About photo (current photograph) — suggested size 760 × 900 -->
             <img src="https://picsum.photos/seed/quiet-life-at-sixty/760/900" width="760" height="900" alt="A current photo of the man in his own space — taken this year.">
           </div>
           <figcaption>THE MAN HIMSELF — PHOTOGRAPHED THIS YEAR</figcaption>
         </figure>
         <figure class="snapshot" aria-hidden="true">
-          <!-- REPLACE THIS PHOTO: small taped snapshot — suggested size 360 × 300 -->
           <img src="https://picsum.photos/seed/tea-in-my-own-kitchen/360/300" width="360" height="300" alt="">
           <figcaption>Cuppa, my kitchen, no agenda</figcaption>
         </figure>
@@ -708,7 +721,6 @@ footer.site nav a:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ════════════ III. THE ROAD HERE ════════════ -->
 <section id="road" aria-label="The road here — the hard years">
   <div class="wrap">
     <p class="kicker reveal">SECTION 03 · THE ROAD HERE · CAUTION: REGRETS AHEAD</p>
@@ -727,14 +739,12 @@ footer.site nav a:hover{color:var(--gold)}
     <div class="postcards">
       <figure class="postcard reveal" style="--r:-2.2deg">
         <div class="pc-img">
-          <!-- REPLACE THIS PHOTO: postcard 1 — the family album — suggested size 640 × 480 -->
           <img src="https://picsum.photos/seed/dysfunctional-family-portrait-1970s/640/480" width="640" height="480" alt="An old family photograph from the seventies — the kind where everyone smiles and nothing is said.">
         </div>
         <figcaption><span>THE FAMILY ALBUM</span><span>C. 1970s</span></figcaption>
       </figure>
       <figure class="postcard reveal" style="--r:1.6deg;--d:.08s">
         <div class="pc-img">
-          <!-- REPLACE THIS PHOTO: postcard 2 — the American years — suggested size 640 × 480 -->
           <img src="https://picsum.photos/seed/american-highway-long-road/640/480" width="640" height="480" alt="A long American highway disappearing into the distance — the years in the USA.">
         </div>
         <span class="pc-stamp">GREETINGS FROM THE U.S.A.</span>
@@ -742,7 +752,6 @@ footer.site nav a:hover{color:var(--gold)}
       </figure>
       <figure class="postcard reveal" style="--r:-1.2deg;--d:.16s">
         <div class="pc-img">
-          <!-- REPLACE THIS PHOTO: postcard 3 — marriage № 1, Hillsboro OR — suggested size 640 × 480 -->
           <img src="https://picsum.photos/seed/hillsboro-oregon-wedding-days/640/480" width="640" height="480" alt="A wedding-era photograph, sepia — marriage number one, Hillsboro, Oregon.">
         </div>
         <span class="pc-stamp">ABOUT 8½ YEARS</span>
@@ -750,7 +759,6 @@ footer.site nav a:hover{color:var(--gold)}
       </figure>
       <figure class="postcard dark-mark reveal" style="--r:1.9deg;--d:.24s">
         <div class="pc-img">
-          <!-- REPLACE THIS PHOTO: postcard 4 — marriage № 2, Tacoma WA — suggested size 640 × 480 -->
           <img src="https://picsum.photos/seed/tacoma-washington-grey-years/640/480" width="640" height="480" alt="A grey, washed-out photograph — marriage number two, Tacoma, Washington. The trailer years.">
         </div>
         <span class="pc-stamp">DO NOT REPRINT</span>
@@ -812,7 +820,6 @@ footer.site nav a:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ════════════ IV. LIKES & LOATHINGS ════════════ -->
 <section id="ledger" aria-label="Likes and loathings">
   <div class="wrap">
     <p class="kicker reveal">SECTION 04 · THE LEDGER</p>
@@ -855,7 +862,6 @@ footer.site nav a:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ════════════ V. THE CHAOS YEARS ════════════ -->
 <section id="chaos" aria-label="The chaos years">
   <div class="wrap">
     <div class="chaos-grid">
@@ -906,15 +912,24 @@ footer.site nav a:hover{color:var(--gold)}
         </article>
       </div>
     </div>
+
+    <!-- KATAMATITE YEARS - NEW PERSONAL RECORD -->
+    <div class="katamatite reveal">
+      <span class="kt-dates">2002 — 2007 · KATAMATITE, VICTORIA</span>
+      <h3>The Reason My Mum Had Her Heart Broken</h3>
+      <p>I had two older brothers. One was kept in the dark — not because he was stupid, but because of his <b>cynical judgement</b>. He saw things through a lens that made everything worse, so we stopped telling him things. That wasn't kindness. That was cowardice, and it cost us.</p>
+      <p>The other brother had his head screwed on backwards. That's not an insult — that's a medical diagnosis of how he processed the world. Everything came out wrong. Every conversation was a minefield of misunderstandings and bad intentions he didn't even know he had.</p>
+      <p><b>Neither were my friend. Neither were even a brother to me.</b> They were two people I shared DNA with and a childhood with, and that was the end of it. When Mum's heart broke — when the family finally cracked open and showed what it really was — they were nowhere. Not because they were busy. Because they were never really there to begin with.</p>
+      <p class="kt-note">Katamatite was supposed to be home. It was just another place where I learned that blood doesn't make family. Presence does. And neither of them showed up.</p>
+      <p class="kt-more">[ MORE PERSONAL DETAILS TO BE ADDED ]</p>
+    </div>
   </div>
 </section>
 
-<!-- ════════════ VI. THE PEACE ════════════ -->
 <section id="peace" aria-label="The peace">
   <div class="wrap">
     <p class="kicker reveal">SECTION 06 · THE PRESENT TENSE</p>
     <div class="peace-hero kenburns reveal">
-      <!-- REPLACE THIS PHOTO: wide landscape of the peace — suggested size 1600 × 800 -->
       <img src="https://picsum.photos/seed/quiet-golden-field-evening/1600/800" width="1600" height="800" alt="A wide, quiet golden landscape at evening — nothing happening, on purpose.">
     </div>
     <h2 class="lm"><span>Peace and quiet. Every single day.</span></h2>
@@ -959,7 +974,6 @@ footer.site nav a:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ════════════ VII. DEDICATION ════════════ -->
 <section id="dedication" aria-label="Dedication">
   <div class="wrap">
     <p class="ded-kicker reveal">THE OFFICIAL DEDICATION OF THIS MEMORIAL</p>
@@ -984,12 +998,6 @@ footer.site nav a:hover{color:var(--gold)}
       </nav>
       <span class="f-candles" id="footerCandles">🕯 0 candles lit</span>
 
-      <!-- ═══════════════════════════════════════════════════════════
-           REPLACE THESE LINKS:
-           Put your real profile URLs in each href below.
-           For email, change the mailto address to yours, e.g.:
-           href="mailto:you@yourmail.com"
-           ═══════════════════════════════════════════════════════════ -->
       <p class="social-label">Find the memorial elsewhere</p>
       <div class="social-row" aria-label="Social links">
         <a class="social-link" href="https://facebook.com/YOUR-PROFILE" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
@@ -1013,7 +1021,6 @@ footer.site nav a:hover{color:var(--gold)}
 </section>
 </main>
 
-<!-- ════════════ THEME PICKER MODAL ════════════ -->
 <div class="theme-modal" id="themeModal" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle" hidden>
   <div class="theme-backdrop" data-close-theme></div>
   <div class="theme-modal-panel">
@@ -1064,11 +1071,39 @@ footer.site nav a:hover{color:var(--gold)}
   document.documentElement.classList.add('js');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* copyright year — always current */
   var yr = document.getElementById('cyear');
   if(yr) yr.textContent = new Date().getFullYear();
 
-  /* ---------- theme picker ---------- */
+  /* dropdown nav */
+  var navTrigger = document.getElementById('navTrigger');
+  var navDropdown = document.getElementById('navDropdown');
+  var navLinks = navDropdown.querySelectorAll('a');
+  
+  function toggleNav(){
+    var open = navDropdown.classList.contains('open');
+    navDropdown.classList.toggle('open');
+    navTrigger.setAttribute('aria-expanded', String(!open));
+    if(!open) navLinks[0].focus();
+  }
+  function closeNav(){
+    navDropdown.classList.remove('open');
+    navTrigger.setAttribute('aria-expanded','false');
+  }
+  navTrigger.addEventListener('click', toggleNav);
+  navLinks.forEach(function(link){
+    link.addEventListener('click', closeNav);
+  });
+  document.addEventListener('click', function(e){
+    if(!navDropdown.contains(e.target) && !navTrigger.contains(e.target)) closeNav();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && navDropdown.classList.contains('open')){
+      closeNav();
+      navTrigger.focus();
+    }
+  });
+
+  /* theme picker */
   var themeBtn = document.getElementById('themeBtn');
   var modal = document.getElementById('themeModal');
   var swatches = modal.querySelectorAll('.swatch');
@@ -1114,7 +1149,7 @@ footer.site nav a:hover{color:var(--gold)}
   });
   markSwatches();
 
-  /* ---------- header + progress ---------- */
+  /* header + progress */
   var header = document.getElementById('siteHeader');
   var progress = document.getElementById('progress');
   function onScroll(){
@@ -1126,7 +1161,7 @@ footer.site nav a:hover{color:var(--gold)}
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ---------- scramble-decode title ---------- */
+  /* scramble-decode title */
   var scrambleEl = document.querySelector('[data-scramble]');
   if(scrambleEl){
     var finalText = scrambleEl.textContent;
@@ -1154,7 +1189,7 @@ footer.site nav a:hover{color:var(--gold)}
     }
   }
 
-  /* ---------- reveal on scroll ---------- */
+  /* reveal on scroll */
   var revealables = document.querySelectorAll('.reveal,.lm,.plate,.obit,.stamp-anim');
   if(reduced || !('IntersectionObserver' in window)){
     revealables.forEach(function(el){ el.classList.add('in'); });
@@ -1167,10 +1202,9 @@ footer.site nav a:hover{color:var(--gold)}
     revealables.forEach(function(el){ io.observe(el); });
   }
 
-  /* ---------- scroll spy ---------- */
-  var links = document.querySelectorAll('header nav a');
+  /* scroll spy for nav dropdown */
   var sections = [];
-  links.forEach(function(a){
+  navLinks.forEach(function(a){
     var id = a.getAttribute('href').slice(1);
     var s = document.getElementById(id);
     if(s) sections.push({el:s, a:a});
@@ -1179,7 +1213,7 @@ footer.site nav a:hover{color:var(--gold)}
     var spy = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
         if(en.isIntersecting){
-          links.forEach(function(a){ a.classList.remove('active'); });
+          navLinks.forEach(function(a){ a.classList.remove('active'); });
           var match = sections.find(function(o){ return o.el === en.target; });
           if(match) match.a.classList.add('active');
         }
@@ -1188,7 +1222,7 @@ footer.site nav a:hover{color:var(--gold)}
     sections.forEach(function(o){ spy.observe(o.el); });
   }
 
-  /* ---------- animated counters ---------- */
+  /* animated counters */
   var statsBlock = document.querySelector('[data-stats]');
   if(statsBlock){
     var animate = function(){
@@ -1213,7 +1247,7 @@ footer.site nav a:hover{color:var(--gold)}
     } else animate();
   }
 
-  /* ---------- redactions ---------- */
+  /* redactions */
   document.querySelectorAll('.redact').forEach(function(btn){
     btn.addEventListener('click', function(){
       var open = btn.getAttribute('aria-pressed') === 'true';
@@ -1223,11 +1257,11 @@ footer.site nav a:hover{color:var(--gold)}
     });
   });
 
-  /* ---------- marquee duplicate ---------- */
+  /* marquee duplicate */
   var track = document.getElementById('ribbonTrack');
   if(track) track.innerHTML += track.innerHTML;
 
-  /* ---------- candles ---------- */
+  /* candles */
   var ROW = 12, BASE = 217;
   var row = document.getElementById('candleRow');
   var countEl = document.getElementById('candleCount');
